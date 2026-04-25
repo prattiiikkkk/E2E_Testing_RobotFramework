@@ -1,8 +1,8 @@
 *** Settings ***
 Library    SeleniumLibrary
 
-
-*** Test Cases ***
+*** Keywords ***
+#*** Test Cases ***
 Home Page
     Open Browser    https://demowebshop.tricentis.com/    gc
     Wait Until Page Contains Element    xpath=//h2[@class='topic-html-content-header']
@@ -37,6 +37,3 @@ Empty Wishlist Page
     Click Element    xpath=//a[text()="Wishlist"]
     Page Should Not Contain Element    xpath=//form[@action="/wishlist"]
     Sleep    2
-
-Checking Temp Banner
-    Mouse Over    xpath=//a[text()="Shopping cart"]
