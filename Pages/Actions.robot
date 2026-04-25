@@ -94,3 +94,5 @@ CheckAlreadyRegisteredUserWarning
     Input Password    css=input#ConfirmPassword    Test@User1
     Click Button    css=input#register-button
     Page Should Contain Element    xpath=//div[@class="validation-summary-errors"]//li[text()="The specified email already exists"]
+
+RedirectionFromLogintoRegistration
