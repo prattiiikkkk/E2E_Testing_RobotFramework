@@ -209,10 +209,10 @@ AddProduct5FromWishlistToCart
     Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product5}"]
     Select Checkbox    xpath=//a[text()="${Product5}"]/ancestor::tr//input[@name="addtocart"]
     Click Element    xpath=//input[@name="addtocartbutton"]
-
-VerifyProduct5FromWishlistToCartMoved
     PageVerifications.ShoppingCart Page
     Page Should Contain Element    xpath=//td[@class="product"]/a[text()="${Product5}"]
+
+VerifyProduct5FromWishlistToCartMoved
     PageVerifications.Wishlist Page
     Page Should Not Contain Element    xpath=//td[@class="product"]/a[text()="${Product5}"]
     Page Should Contain Element    xpath=//td[@class="product"]/a[text()="${Product4}"]
@@ -266,6 +266,7 @@ ClearCart
     END
     Click Element    xpath=//input[@name="updatecart"]
     PageVerifications.Empty ShoppingCart Page
+    Click Element    //div[@class="header-logo"]
         
 ClearWishlist
     PageVerifications.Wishlist Page
@@ -275,6 +276,7 @@ ClearWishlist
     END
     Click Element    xpath=//input[@name="updatecart"]
     PageVerifications.Empty Wishlist Page
+    Click Element    xpath=//div[@class="header-logo"]
 
 SearchProduct2AddToCart
     Input Text    css=input#small-searchterms    ${Product2}
@@ -283,8 +285,6 @@ SearchProduct2AddToCart
     Click Element    xpath=//h2/a[text()="${Product2}"]
     Wait Until Page Contains Element    css=input#add-to-cart-button-45
     Click Button    css=input#add-to-cart-button-45
-    PageVerifications.ShoppingCart Page
-    Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product2}"]
 
 SearchProduct5AddToWishlist
     Input Text    css=input#small-searchterms    ${Product5}
@@ -293,5 +293,3 @@ SearchProduct5AddToWishlist
     Click Element    xpath=//h2/a[text()="${Product5}"]
     Wait Until Page Contains Element    css=input#add-to-wishlist-button-53
     Click Button    css=input#add-to-wishlist-button-53
-    PageVerifications.Wishlist Page
-    Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product5}"]

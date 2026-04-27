@@ -52,7 +52,7 @@ ForgotPasswordFlow
     Actions.CheckForgotPasswordWithValidEmail
 
 NegativeLoginFlow
-    [Tags]    WOLogIn    Login
+    [Tags]    PosFlow    WOLogIn    Login
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromInvalidEmailFormat
@@ -61,14 +61,14 @@ NegativeLoginFlow
     Actions.LoginFromInvalidEmail
     
 PositiveLoginandLogoutFlow
-    [Tags]    WLogIn    Login
+    [Tags]    PosFlow    WLogIn    Login
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.Logout
 
 VerifyAddToWishlistFunctionality
-    [Tags]    WLogIn    Login    Wishlist    Add
+    [Tags]    PosFlow    WLogIn    Login    Wishlist    Add
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -81,7 +81,7 @@ VerifyAddToWishlistFunctionality
     Actions.Logout
 
 VerifyAddToCartFunctionality
-    [Tags]    WLogIn    Login    Cart    Add
+    [Tags]    PosFlow    WLogIn    Login    Cart    Add
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -94,7 +94,7 @@ VerifyAddToCartFunctionality
     Actions.Logout
 
 VerifyRemoveFromCartFunctionality
-    [Tags]    WLogIn    Cart    Remove
+    [Tags]    PosFlow    WLogIn    Cart    Remove
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -105,7 +105,7 @@ VerifyRemoveFromCartFunctionality
     Actions.Logout
 
 VerifyRemoveFromWishlistFunctionality
-    [Tags]    WLogIn    Wishlist    Remove
+    [Tags]    PosFlow    WLogIn    Wishlist    Remove
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -114,7 +114,82 @@ VerifyRemoveFromWishlistFunctionality
     Actions.Logout
 
 VerifyItemsInCartAfterReLogin
-    [Tags]    WLogIn    Wishlist
+    [Tags]    PosFlow    WReLogin    Cart
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
+    Actions.ClearCart
+    Actions.AddProduct1ToCart
+    Actions.VerifyProduct1ToCartAdded
+    Actions.AddProduct2ToCart
+    Actions.VerifyProduct2ToCartAdded
+    Actions.Logout
+    PageVerifications.Login Page
+    Actions.LoginFromValidCreds
+    Actions.VerifyProduct1ToCartAdded
+    Actions.VerifyProduct2ToCartAdded
+    Actions.Logout
+
+VerifyItemsInWishlistAfterReLogin
+    [Tags]    PosFlow    WReLogin    Wishlist
+    PageVerifications.Home Page
+    PageVerifications.Login Page
+    Actions.LoginFromValidCreds
+    Actions.ClearWishlist
+    Actions.AddProduct3ToWishlist
+    Actions.VerifyProduct3ToWishlistAdded
+    Actions.AddProduct4ToWishlist
+    Actions.VerifyProduct4ToWishlistAdded
+    Actions.AddProduct5ToWishlist
+    Actions.VerifyProduct5ToWishlistAdded
+    Actions.Logout
+    PageVerifications.Login Page
+    Actions.LoginFromValidCreds
+    Actions.VerifyProduct3ToWishlistAdded
+    Actions.VerifyProduct4ToWishlistAdded
+    Actions.VerifyProduct5ToWishlistAdded
+    Actions.Logout
+
+SearchForProducts
+    [Tags]    PosFlow    WLogIn    Search
+    PageVerifications.Home Page
+    PageVerifications.Login Page
+    Actions.LoginFromValidCreds
+    Actions.ClearCart
+    Actions.ClearWishlist
+    Actions.SearchProduct2AddToCart
+    Actions.VerifyProduct2ToCartAdded
+    Actions.SearchProduct5AddToWishlist
+    Actions.VerifyProduct5ToWishlistAdded
+    Actions.Logout
+
+VerifyAddToWishlistFunctionalityWOLogin
+    [Tags]    WOLogIn    PosFlow    Search    Wishlist
+    PageVerifications.Home Page
+    Actions.AddProduct3ToWishlist
+    Actions.VerifyProduct3ToWishlistAdded
+    Actions.AddProduct4ToWishlist
+    Actions.VerifyProduct4ToWishlistAdded
+    Actions.SearchProduct5AddToWishlist
+    Actions.VerifyProduct5ToWishlistAdded
+
+VerifyAddToCartFunctionalityWOLogin
+    [Tags]    WOLogIn    PosFlow    Search    Cart
+    Set Selenium Speed    0.5
+    PageVerifications.Home Page
+    Actions.AddProduct1ToCart
+    Actions.VerifyProduct1ToCartAdded
+    Actions.SearchProduct2AddToCart
+    Actions.VerifyProduct2ToCartAdded
+
+VerifyCheckoutFunctionality
+    [Tags]    WLogIn    PosFlow   Cart    Search
+    PageVerifications.Home Page
+    Actions.AddProduct1ToCart
+    Actions.VerifyProduct1ToCartAdded
+    Actions.SearchProduct2AddToCart
+    Actions.VerifyProduct2ToCartAdded
+    Actions.AddProduct5FromWishlistToCart
+    Actions.VerifyProduct5FromWishlistToCartMoved
+    Actions.CheckoutProducts
+    Page Should Contain Element    xpath=//h1[text()="Welcome, Please Sign In!"]
