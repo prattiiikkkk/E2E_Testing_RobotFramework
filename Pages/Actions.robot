@@ -2,7 +2,9 @@
 Resource    PageVerifications.robot
 
 *** Variables ***
-${ValidEmail}    tu1+0000000000000000001@test.com
+${NewEmail}    tu1+0000000001@test.com
+${NewEmail2}    tu1+0000000001@test.com
+${ValidEmail}    tu1@test.com
 ${SmallInvalidEmail}    t@o.m
 ${InValidEmail}    tu1+00000000000000001@test.com
 ${WrongEmail}    tpoi
@@ -43,16 +45,27 @@ CheckEmailRequiredWarnings
     Press Keys     css=input#Email    BACKSPACE    BACKSPACE    BACKSPACE    BACKSPACE    BACKSPACE
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='Email']//span[text()='Email is required.']
 
-PositiveRegisterUser
+PositiveRegisterUser1
     Click Element    css=input#gender-male
     Input Text    css=input#FirstName    ${FirstName}
     Input Text    css=input#LastName    ${LastName}
-    Input Text    css=input#Email    ${ValidEmail}
+    Input Text    css=input#Email    ${NewEmail}
     Input Password    css=input#Password    ${ValidPassword}
     Input Password    css=input#ConfirmPassword    ${ValidPassword}
     Click Button    css=input#register-button
     Wait Until Page Contains Element    css=div.result
-    Page Should Contain Element    xpath=//a[text()="${ValidEmail}"]
+    Page Should Contain Element    xpath=//a[text()="${NewEmail}"]
+
+PositiveRegisterUser2
+    Click Element    css=input#gender-male
+    Input Text    css=input#FirstName    ${FirstName}
+    Input Text    css=input#LastName    ${LastName}
+    Input Text    css=input#Email    ${NewEmail2}
+    Input Password    css=input#Password    ${ValidPassword}
+    Input Password    css=input#ConfirmPassword    ${ValidPassword}
+    Click Button    css=input#register-button
+    Wait Until Page Contains Element    css=div.result
+    Page Should Contain Element    xpath=//a[text()="${NewEmail2}"]
 
 NegativeRegisterUser
     Click Element    css=input#gender-male
@@ -252,11 +265,17 @@ VerifyTermsOfServicePopup
     Click Element    css=button#checkout
     Page Should Contain Element    css=span#ui-id-2
 
-CheckoutProducts
+CheckoutProductsWLogin
     PageVerifications.ShoppingCart Page
     Select Checkbox    css=input#termsofservice
     Click Element    css=button#checkout
     Page Should Contain Element    xpath=//h1[text()="Checkout"]
+
+CheckoutProductsWOLogin
+    PageVerifications.ShoppingCart Page
+    Select Checkbox    css=input#termsofservice
+    Click Element    css=button#checkout
+    Page Should Contain Element    xpath=//h1[text()="Welcome, Please Sign In!"]
 
 ClearCart
     PageVerifications.ShoppingCart Page
@@ -293,3 +312,41 @@ SearchProduct5AddToWishlist
     Click Element    xpath=//h2/a[text()="${Product5}"]
     Wait Until Page Contains Element    css=input#add-to-wishlist-button-53
     Click Button    css=input#add-to-wishlist-button-53
+
+NewClearCart
+    PageVerifications.ShoppingCart Page
+    ${cart_has_items}=    Run Keyword And Return Status
+    ...    Page Should Contain Element
+    ...    xpath=//input[@name="removefromcart"]
+    IF    ${cart_has_items}
+        ${items}=    Get WebElements    xpath=//input[@name="removefromcart"]
+
+        FOR    ${item}    IN    @{items}
+            Select Checkbox    ${item}
+        END
+
+        Click Element    xpath=//input[@name="updatecart"]
+        PageVerifications.Empty ShoppingCart Page
+    ELSE
+        Log    Cart is already empty
+    END
+    Click Element    xpath=//div[@class="header-logo"]
+
+NewClearWishlist
+     PageVerifications.Wishlist Page
+    ${wishlist_has_items}=    Run Keyword And Return Status
+    ...    Page Should Contain Element
+    ...    xpath=//input[@name="removefromcart"]
+    IF    ${wishlist_has_items}
+        ${items}=    Get WebElements    xpath=//input[@name="removefromcart"]
+
+        FOR    ${item}    IN    @{items}
+            Select Checkbox    ${item}
+        END
+
+        Click Element    xpath=//input[@name="updatecart"]
+        PageVerifications.Empty Wishlist Page
+    ELSE
+        Log    Wishlist is already empty
+    END
+    Click Element    xpath=//div[@class="header-logo"]
