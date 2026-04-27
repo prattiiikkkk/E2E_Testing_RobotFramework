@@ -40,5 +40,27 @@ PositiveRegistrationFlowFromLoginPage
     Actions.RedirectionFromLogintoRegistration
     Actions.PositiveRegisterUser
 
+ForgotPasswordFlow
+    PageVerifications.Home Page
+    PageVerifications.Login Page
+    Actions.CheckForgotPasswordWithInvaildEmail
+    Actions.CheckForgotPasswordWithValidEmail
 
+NegativeLoginFlow
+    PageVerifications.Home Page
+    PageVerifications.Login Page
+    Actions.LoginFromInvalidEmailFormat
+    Actions.LoginFromInvalidCreds
+    Actions.LoginFromInvalidPassword
+    Actions.LoginFromInvalidEmail
+    
+PositiveLoginandLogoutFlow
+    PageVerifications.Home Page
+    PageVerifications.Login Page
+    Actions.LoginFromValidCreds
+    Actions.Logout
 
+VerifyAddToCartFunctionality
+    PageVerifications.Home Page
+    PageVerifications.Login Page
+    Actions.LoginFromValidCreds
