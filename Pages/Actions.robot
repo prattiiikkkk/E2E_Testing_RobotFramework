@@ -6,19 +6,21 @@ ${ValidEmail}    tu1+0000000000000000001@test.com
 ${SmallInvalidEmail}    t@o.m
 ${InValidEmail}    tu1+00000000000000001@test.com
 ${WrongEmail}    tpoi
+${ForgetEmail}    Forget@Pswd.com
+${ForgetPassword}    FgtEml.123
 ${ValidPassword}    Test@User1
-${SmallInvalidPassword}    
+${SmallInvalidPassword}    123
 ${InvalidPassword}    Test@User0
 ${SmallPassword}    Tes
 ${FirstName}    Test1
 ${LastName}    User1
 
 
-*** Test Cases ***
-#*** Keywords ***
+#*** Test Cases ***
+*** Keywords ***
 RedirectionFromLogintoRegistration
-    PageVerifications.Home Page
-    PageVerifications.Login Page
+    #PageVerifications.Home Page
+    #PageVerifications.Login Page
     Click Element    css=input.register-button
     Wait Until Page Contains Element    xpath=//h1[text()="Register"]
 
@@ -41,8 +43,8 @@ CheckEmailRequiredWarnings
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='Email']//span[text()='Email is required.']
 
 PositiveRegisterUser
-    PageVerifications.Home Page
-    PageVerifications.Register Page
+    #PageVerifications.Home Page
+    #PageVerifications.Register Page
     Click Element    css=input#gender-male
     Input Text    css=input#FirstName    ${FirstName}
     Input Text    css=input#LastName    ${LastName}
@@ -161,4 +163,21 @@ Logout
     Click Element    xpath=//a[text()="Log out"]
     Wait Until Page Contains Element    xpath=//a[text()="Log in"]
 
+CheckForgotPasswordWithInvaildEmail
+    PageVerifications.Home Page
+    PageVerifications.Login Page
+    Click Element    xpath=//a[text()="Forgot password?"]
+    Wait Until Page Contains Element    xpath=//div[@class="page-title"]//h1[text()="Password recovery"]
+    Input Text    css=input#Email    ${InvalidEmail}
+    Click Button    xpath=//input[@value="Recover"]
+    Wait Until Page Contains Element    xpath=//div[@class="result"]
+
+CheckForgotPasswordWithValidEmail
+    PageVerifications.Home Page
+    PageVerifications.Login Page
+    Click Element    xpath=//a[text()="Forgot password?"]
+    Wait Until Page Contains Element    xpath=//div[@class="page-title"]//h1[text()="Password recovery"]
+    Input Text    css=input#Email    ${ForgetEmail}
+    Click Button    xpath=//input[@value="Recover"]
+    Wait Until Page Contains Element    xpath=//div[@class="result"]
 
