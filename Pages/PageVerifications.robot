@@ -1,10 +1,13 @@
 *** Settings ***
 Library    SeleniumLibrary
 
+*** Variables ***
+${HomeURL}    https://demowebshop.tricentis.com/
+
 *** Keywords ***
 #*** Test Cases ***
 Home Page
-    Open Browser    https://demowebshop.tricentis.com/    gc
+    Open Browser    ${HomeURL}    gc
     Wait Until Page Contains Element    xpath=//h2[@class='topic-html-content-header']
     Sleep    2
 
