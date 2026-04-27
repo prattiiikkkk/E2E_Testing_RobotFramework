@@ -149,23 +149,27 @@ CheckForgotPasswordWithValidEmail
     Click Button    xpath=//input[@value="Recover"]
     Wait Until Page Contains Element    xpath=//div[@class="result"]
 
-AddProduct1ToCartAndVerify
+AddProduct1ToCart
     Click Element    xpath=//h2/a[text()="${Product1}"]
     Wait Until Page Contains Element    css=input#add-to-cart-button-31
     Click Button    css=input#add-to-cart-button-31
+
+VerifyProduct1ToCartAdded
     PageVerifications.ShoppingCart Page
     Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product1}"]
 
-AddProduct2ToCartAndVerify
+AddProduct2ToCart
     Click Element    xpath=//ul[@class="top-menu"]/li[1]
     Wait Until Page Contains Element    xpath=//h1[text()="Books"]
     Click Element    xpath=//h2/a[text()="${Product2}"]
     Wait Until Page Contains Element    css=input#add-to-cart-button-45
     Click Button    css=input#add-to-cart-button-45
+
+VerifyProduct2ToCartAdded
     PageVerifications.ShoppingCart Page
     Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product2}"]
 
-AddProduct3ToWishlistAndVerify
+AddProduct3ToWishlist
     Click Element    xpath=//ul[@class="top-menu"]/li[3]
     Wait Until Page Contains Element    xpath=//h1[text()="Electronics"]
     Click Element    xpath=//h2[@class="title"]/a[@title="Show products in category Cell phones"]
@@ -173,24 +177,30 @@ AddProduct3ToWishlistAndVerify
     Click Element    xpath=//h2/a[text()="${Product3}"]
     Wait Until Page Contains Element    css=input#add-to-wishlist-button-80
     Click Button    css=input#add-to-wishlist-button-80
+
+VerifyProduct3ToWishlistAdded
     PageVerifications.Wishlist Page
     Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product3}"]
 
-AddProduct4ToWishlistAndVerify
+AddProduct4ToWishlist
     Click Element    xpath=//ul[@class="top-menu"]/li[4]
     Wait Until Page Contains Element    xpath=//h1[text()="Apparel & Shoes"]
     Click Element    xpath=//h2/a[text()="${Product4}"]
     Wait Until Page Contains Element    css=input#add-to-wishlist-button-5
     Click Button    css=input#add-to-wishlist-button-5
+
+VerifyProduct4ToWishlistAdded
     PageVerifications.Wishlist Page
     Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product4}"]
 
-AddProduct5ToWishlistAndVerify
+AddProduct5ToWishlist
     Click Element    xpath=//ul[@class="top-menu"]/li[5]
     Wait Until Page Contains Element    xpath=//h1[text()="Digital downloads"]
     Click Element    xpath=//h2/a[text()="${Product5}"]
     Wait Until Page Contains Element    css=input#add-to-wishlist-button-53
     Click Button    css=input#add-to-wishlist-button-53
+
+VerifyProduct5ToWishlistAdded
     PageVerifications.Wishlist Page
     Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product5}"]
 
@@ -199,6 +209,8 @@ AddProduct5FromWishlistToCart
     Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product5}"]
     Select Checkbox    xpath=//a[text()="${Product5}"]/ancestor::tr//input[@name="addtocart"]
     Click Element    xpath=//input[@name="addtocartbutton"]
+
+VerifyProduct5FromWishlistToCartMoved
     PageVerifications.ShoppingCart Page
     Page Should Contain Element    xpath=//td[@class="product"]/a[text()="${Product5}"]
     PageVerifications.Wishlist Page
@@ -211,6 +223,8 @@ RemoveProduct4FromWishlist
     Wait Until Page Contains Element    xpath=//td[@class="product"]/a[text()="${Product4}"]
     Select Checkbox    xpath=//a[text()="${Product4}"]/ancestor::tr//input[@name="removefromcart"]
     Click Element    xpath=//input[@name="updatecart"]
+
+VerifyProduct4FromWishlistRemoved
     Page Should Not Contain Element    xpath=//td[@class="product"]/a[text()="${Product4}"]
     Page Should Contain Element    xpath=//td[@class="product"]/a[text()="${Product3}"]
 
@@ -218,6 +232,8 @@ RemoveProduct5FromCart
     PageVerifications.ShoppingCart Page
     Select Checkbox    xpath=//a[text()="${Product5}"]/ancestor::tr//input[@name="removefromcart"]
     Click Element    xpath=//input[@name="updatecart"]
+
+VerifyProduct5FromCartRemoved
     Page Should Not Contain Element    xpath=//td[@class="product"]/a[text()="${Product5}"]
     Page Should Contain Element    xpath=//td[@class="product"]/a[text()="${Product2}"]
     Page Should Contain Element    xpath=//td[@class="product"]/a[text()="${Product1}"]
@@ -226,6 +242,8 @@ RemoveProduct2FromCart
     PageVerifications.ShoppingCart Page
     Select Checkbox    xpath=//a[text()="${Product2}"]/ancestor::tr//input[@name="removefromcart"]
     Click Element    xpath=//input[@name="updatecart"]
+
+VerifyProduct2FromCartRemoved
     Page Should Not Contain Element    xpath=//td[@class="product"]/a[text()="${Product2}"]
     Page Should Contain Element    xpath=//td[@class="product"]/a[text()="${Product1}"]
 
