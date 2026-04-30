@@ -17,8 +17,6 @@ ${Product5}    3rd Album
 
 @{Products}    ${Product1}    ${Product2}    ${Product3}    ${Product4}    ${Product5}
 
-
-#*** Test Cases ***
 *** Keywords ***
 RedirectionFromLogintoRegistration
     Click Element    css=input.register-button

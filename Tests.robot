@@ -2,12 +2,12 @@
 Resource    Pages/Actions.robot
 
 *** Variables ***
-${Browser}    chrome
+${Browser}    gc    #You can use either: gc, edge, or ff browsers
 
 *** Keywords ***
 Setup
     Sleep    1s
-    Set Selenium Speed    0.5s
+    Set Selenium Speed    0.25s
     PageVerifications.Home Page
 
 Teardown
