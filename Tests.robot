@@ -1,12 +1,17 @@
 *** Settings ***
 Resource    Pages/Actions.robot
-Suite Setup    Set Selenium Speed    0.05
-Suite Teardown    Close All Browsers
+
+*** Keywords ***
+Setup
+    Set Selenium Speed    0.05s
+
+Teardown
+    Close All Browsers
 
 *** Test Cases ***
 NegativeRegistrationFlowFromRegistrationPage
     [Tags]    NegFlow    Warnings    Regis
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Register Page
     Actions.CheckDirectRegisterClickWarnings
@@ -18,11 +23,11 @@ NegativeRegistrationFlowFromRegistrationPage
     Actions.CheckConfirmPasswordMismatchWarning
     Actions.CheckConfirmPasswordRequiredWarning
     Actions.CheckAlreadyRegisteredUserWarning
-    [Teardown]
+    [Teardown]    Teardown
 
 NegativeRegistrationFlowFromLoginPage
     [Tags]    NegFlow    Login
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.RedirectionFromLogintoRegistration
@@ -35,57 +40,60 @@ NegativeRegistrationFlowFromLoginPage
     Actions.CheckConfirmPasswordMismatchWarning
     Actions.CheckConfirmPasswordRequiredWarning
     Actions.CheckAlreadyRegisteredUserWarning
-    [Teardown]
+    [Teardown]    Teardown
 
 PositiveRegistrationFlowFromRegistrationPage
     [Tags]    PosFlow    Regis
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Register Page
-    Actions.PositiveRegisterUser1
-    [Teardown]
+    Actions.PositiveRegisterUser
+    [Teardown]    Teardown
 
 PositiveRegistrationFlowFromLoginPage
     [Tags]    PosFlow    Login
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.RedirectionFromLogintoRegistration
-    Actions.PositiveRegisterUser2
-    [Teardown]
+    Actions.PositiveRegisterUser
+    [Teardown]    Teardown
 
 ForgotPasswordFlow
     [Tags]    NegFlow    PosFlow    Login
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.CheckForgotPasswordWithInvaildEmail
     Actions.CheckForgotPasswordWithValidEmail
-    [Teardown]
+    [Teardown]    Teardown
 
 NegativeLoginFlow
     [Tags]    PosFlow    WOLogIn    Login
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromInvalidEmailFormat
     Actions.LoginFromInvalidCreds
     Actions.LoginFromInvalidPassword
     Actions.LoginFromInvalidEmail
-    [Teardown]
+    [Teardown]    Teardown
     
 PositiveLoginandLogoutFlow
     [Tags]    PosFlow    WLogIn    Login
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.Logout
-    [Teardown]
+    PageVerifications.Login Page
+    Actions.CheckLoginWithForgotPasswordUser
+    Actions.Logout
+    [Teardown]    Teardown
 
 VerifyAddToWishlistFunctionality
     [Tags]    PosFlow    WLogIn    Login    Wishlist    Add
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -96,11 +104,11 @@ VerifyAddToWishlistFunctionality
     Actions.AddProduct5ToWishlist
     Actions.VerifyProduct5ToWishlistAdded
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyAddToCartFunctionality
     [Tags]    PosFlow    WLogIn    Login    Cart    Add
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -111,11 +119,11 @@ VerifyAddToCartFunctionality
     Actions.AddProduct5FromWishlistToCart
     Actions.VerifyProduct5FromWishlistToCartMoved
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyRemoveFromCartFunctionality
     [Tags]    PosFlow    WLogIn    Cart    Remove
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -124,22 +132,22 @@ VerifyRemoveFromCartFunctionality
     Actions.RemoveProduct2FromCart
     Actions.VerifyProduct2FromCartRemoved
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyRemoveFromWishlistFunctionality
     [Tags]    PosFlow    WLogIn    Wishlist    Remove
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.RemoveProduct4FromWishlist
     Actions.VerifyProduct4FromWishlistRemoved
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyItemsInCartAfterReLogin
     [Tags]    PosFlow    WReLogin    Cart
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -155,11 +163,11 @@ VerifyItemsInCartAfterReLogin
     Actions.VerifyProduct1ToCartAdded
     Actions.VerifyProduct2ToCartAdded
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyItemsInWishlistAfterReLogin
     [Tags]    PosFlow    WReLogin    Wishlist
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -178,11 +186,11 @@ VerifyItemsInWishlistAfterReLogin
     Actions.VerifyProduct4ToWishlistAdded
     Actions.VerifyProduct5ToWishlistAdded
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown
 
 SearchForProducts
     [Tags]    PosFlow    WLogIn    Search
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -193,11 +201,11 @@ SearchForProducts
     Actions.SearchProduct5AddToWishlist
     Actions.VerifyProduct5ToWishlistAdded
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyAddToWishlistFunctionalityWOLogin
     [Tags]    WOLogIn    PosFlow    Search    Wishlist
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     Actions.AddProduct3ToWishlist
     Actions.VerifyProduct3ToWishlistAdded
@@ -205,21 +213,21 @@ VerifyAddToWishlistFunctionalityWOLogin
     Actions.VerifyProduct4ToWishlistAdded
     Actions.SearchProduct5AddToWishlist
     Actions.VerifyProduct5ToWishlistAdded
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyAddToCartFunctionalityWOLogin
     [Tags]    WOLogIn    PosFlow    Search    Cart
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     Actions.AddProduct1ToCart
     Actions.VerifyProduct1ToCartAdded
     Actions.SearchProduct2AddToCart
     Actions.VerifyProduct2ToCartAdded
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyCheckoutFunctionalityWOLgin
     [Tags]    WOLogIn    PosFlow   Cart    Search
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     Actions.AddProduct1ToCart
     Actions.VerifyProduct1ToCartAdded
@@ -228,11 +236,11 @@ VerifyCheckoutFunctionalityWOLgin
     Actions.SearchProduct5AddToWishlist
     Actions.AddProduct5FromWishlistToCart
     Actions.CheckoutProductsWOLogin
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyCheckoutFunctionalityWLogin
     [Tags]    WLogIn    PosFlow   Cart    Search
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -244,11 +252,11 @@ VerifyCheckoutFunctionalityWLogin
     Actions.AddProduct5FromWishlistToCart
     Actions.CheckoutProductsWLogin
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyPopupOnCheckoutWLogin
     [Tags]    WLogIn    PosFlow   Cart    Search
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
@@ -257,26 +265,26 @@ VerifyPopupOnCheckoutWLogin
     Actions.SearchProduct2AddToCart
     Actions.VerifyProduct2ToCartAdded
     Actions.VerifyTermsOfServicePopup
-    [Teardown]
+    [Teardown]    Teardown
 
 VerifyPopupOnCheckoutWOLogin
     [Tags]    WOLogIn    PosFlow   Cart    Search
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     Actions.AddProduct1ToCart
     Actions.VerifyProduct1ToCartAdded
     Actions.SearchProduct2AddToCart
     Actions.VerifyProduct2ToCartAdded
     Actions.VerifyTermsOfServicePopup
-    [Teardown]
+    [Teardown]    Teardown
     
 Cleanup
     [Tags]    WLogIn    Cleanup    Special
-    [Setup]
+    [Setup]    Setup
     PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.NewClearCart
     Actions.NewClearWishlist
     Actions.Logout
-    [Teardown]
+    [Teardown]    Teardown

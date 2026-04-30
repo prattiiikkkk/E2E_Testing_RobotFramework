@@ -1,29 +1,22 @@
 *** Settings ***
+Library    RPA.Excel.Files
 Resource    PageVerifications.robot
 
 *** Variables ***
-${NewEmail}    tu1+0000000001@test.com
-${NewEmail2}    tu1+0000000001@test.com
-${ValidEmail}    tu1@test.com
-${SmallInvalidEmail}    t@o.m
-${InValidEmail}    tu1+00000000000000001@test.com
-${WrongEmail}    tpoi
-${ForgetEmail}    Forget@Pswd.com
-${ForgetPassword}    FgtEml.123
-${ValidPassword}    Test@User1
-${SmallInvalidPassword}    123
-${InvalidPassword}    Test@User0
-${SmallPassword}    Tes
-${FirstName}    Test1
-${LastName}    User1
+#Imported Excel Files for Userdata
+${Regis_File}    UserData/RegistrationUsers.xlsx    #${reg}        #${forget}
+${ValidCreds_File}    UserData/ValidUsers.xlsx    #${valid}
+${InvalidCreds_File}    UserData/InvalidUsers.xlsx    #${invalid}
 
 #Products
-@{Products}    ${Product1}    ${Product2}    ${Product3}    ${Product4}    ${Product5}
 ${Product1}    14.1-inch Laptop
 ${Product2}    Fiction
 ${Product3}    Phone Cover
 ${Product4}    50's Rockabilly Polka Dot Top JR Plus Size
 ${Product5}    3rd Album
+
+@{Products}    ${Product1}    ${Product2}    ${Product3}    ${Product4}    ${Product5}
+
 
 #*** Test Cases ***
 *** Keywords ***
@@ -40,127 +33,200 @@ CheckDirectRegisterClickWarnings
     Page Should Contain Element    xpath=//span[@data-valmsg-for='ConfirmPassword']//span[text()='Password is required.']
 
 CheckEmailRequiredWarnings
-    Input Text    css=input#Email    ${SmallInvalidEmail}
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Text    css=input#Email    ${invalid}[5]
     Click Element    css=input#FirstName
     Press Keys     css=input#Email    BACKSPACE    BACKSPACE    BACKSPACE    BACKSPACE    BACKSPACE
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='Email']//span[text()='Email is required.']
 
-PositiveRegisterUser1
-    Click Element    css=input#gender-male
-    Input Text    css=input#FirstName    ${FirstName}
-    Input Text    css=input#LastName    ${LastName}
-    Input Text    css=input#Email    ${NewEmail}
-    Input Password    css=input#Password    ${ValidPassword}
-    Input Password    css=input#ConfirmPassword    ${ValidPassword}
-    Click Button    css=input#register-button
-    Wait Until Page Contains Element    css=div.result
-    Page Should Contain Element    xpath=//a[text()="${NewEmail}"]
-
-PositiveRegisterUser2
-    Click Element    css=input#gender-male
-    Input Text    css=input#FirstName    ${FirstName}
-    Input Text    css=input#LastName    ${LastName}
-    Input Text    css=input#Email    ${NewEmail2}
-    Input Password    css=input#Password    ${ValidPassword}
-    Input Password    css=input#ConfirmPassword    ${ValidPassword}
-    Click Button    css=input#register-button
-    Wait Until Page Contains Element    css=div.result
-    Page Should Contain Element    xpath=//a[text()="${NewEmail2}"]
+PositiveRegisterUser
+    Open Workbook    ${Regis_File}
+    ${reg}=    Read Worksheet As Table    header=True
+    FOR    ${index}    ${reg}    IN ENUMERATE    @{reg}
+        IF    '${reg}[Used]' == 'NO'
+            Set Worksheet Value    ${index + 2}    5    YES
+            Save Workbook
+            Close Workbook
+            Click Element    css=input#gender-male
+            Input Text    css=input#FirstName    ${reg}[Regis_FirstName]
+            Input Text    css=input#LastName    ${reg}[Regis_LastName]
+            Input Text    css=input#Email    ${reg}[Regis_Email]
+            Input Password    css=input#Password    ${reg}[Regis_Password]
+            Input Password    css=input#ConfirmPassword    ${reg}[Regis_Password]
+            Click Button    css=input#register-button
+            Wait Until Page Contains Element    css=div.result    60s
+            Page Should Contain Element    xpath=//a[text()="${reg}[Regis_Email]"]
+            RETURN
+        END
+    END
+    Close Workbook
+    Fail    No unused users available in Excel
 
 NegativeRegisterUser
+    Open Workbook    ${ValidCreds_File}
+    ${valid}=    Read Worksheet As Table    header=True
+    ${valid}=    Set Variable    ${valid}[0]
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
     Click Element    css=input#gender-male
-    Input Text    css=input#FirstName    ${FirstName}
-    Input Text    css=input#LastName    ${LastName}
-    Input Text    css=input#Email    ${ValidEmail}
-    Input Password    css=input#Password    ${ValidPassword}
-    Input Password    css=input#ConfirmPassword    ${InValidPassword}
+    Input Text    css=input#FirstName    ${invalid}[0]
+    Input Text    css=input#LastName    ${invalid}[1]
+    Input Text    css=input#Email    ${invalid}[2]
+    Input Password    css=input#Password    ${valid}[3]
+    Input Password    css=input#ConfirmPassword    ${invalid}[3]
     Click Button    css=input#register-button
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='ConfirmPassword']//span[text()="The password and confirmation password do not match."]
 
 CheckWrongEmailWarnings
-    Input Text    css=input#Email    ${WrongEmail}
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Text    css=input#Email    ${invalid}[6]
     Click Element    css=input#FirstName
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='Email']//span[text()='Wrong email']
 
 CheckPasswordLengthWarning
-    Input Password    css=input#Password    ${SmallPassword}
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Password    css=input#Password    ${invalid}[5]
     Click Element    css=input#FirstName
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='Password']//span[text()='The password should have at least 6 characters.']
 
 CheckPasswordRequiredWarning
-    Input Password    css=input#Password    ${SmallPassword}
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Password    css=input#Password    ${invalid}[5]
     Click Element    css=input#FirstName
     Press Keys     css=input#Password    BACKSPACE    BACKSPACE    BACKSPACE
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='Password']//span[text()='Password is required.']
 
 CheckConfirmPasswordMismatchWarning
-    Input Password    css=input#ConfirmPassword    ${SmallPassword}
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Password    css=input#ConfirmPassword    ${invalid}[5]
     Click Element    css=input#FirstName
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='ConfirmPassword']//span[text()='The password and confirmation password do not match.']
 
 CheckConfirmPasswordRequiredWarning
-    Input Password    css=input#ConfirmPassword    ${SmallPassword}
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Password    css=input#ConfirmPassword    ${invalid}[5]
     Click Element    css=input#FirstName
     Press Keys     css=input#ConfirmPassword    BACKSPACE    BACKSPACE    BACKSPACE
     Wait Until Page Contains Element    xpath=//span[@data-valmsg-for='ConfirmPassword']//span[text()='Password is required.']
 
 CheckAlreadyRegisteredUserWarning
+    Open Workbook    ${ValidCreds_File}
+    ${valid}=    Read Worksheet As Table    header=True
+    ${valid}=    Set Variable    ${valid}[0]
     Click Element    css=input#gender-male
-    Input Text    css=input#FirstName    ${FirstName}
-    Input Text    css=input#LastName    ${LastName}
-    Input Text    css=input#Email    ${ValidEmail}
-    Input Password    css=input#Password    ${ValidPassword}
-    Input Password    css=input#ConfirmPassword    ${ValidPassword}
+    Input Text    css=input#FirstName    ${valid}[0]
+    Input Text    css=input#LastName    ${valid}[1]
+    Input Text    css=input#Email    ${valid}[2]
+    Input Password    css=input#Password    ${valid}[3]
+    Input Password    css=input#ConfirmPassword    ${valid}[3]
     Click Button    css=input#register-button
     Page Should Contain Element    xpath=//div[@class="validation-summary-errors"]//li[text()="The specified email already exists"]
 
 LoginFromInvalidEmailFormat
-    Input Text    css=input#Email    ${WrongEmail}
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Text    css=input#Email    ${invalid}[6]
     Click Element    css=input#Password
     Wait Until Page Contains Element    xpath=//span[@class="field-validation-error"]//span[text()="Please enter a valid email address."]
 
 LoginFromInvalidCreds
-    Input Text    css=input#Email    ${InvalidEmail}
-    Input Password    css=input#Password    ${InvalidPassword}
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Text    css=input#Email    ${invalid}[2]
+    Input Password    css=input#Password    ${invalid}[3]
     Click Button    xpath=//input[@value="Log in"]
     Wait Until Page Contains Element    xpath=//div[@class="validation-summary-errors"]//span[text()="Login was unsuccessful. Please correct the errors and try again."]
     Wait Until Page Contains Element    xpath=//div[@class="validation-summary-errors"]//li[text()="No customer account found"]
     
 LoginFromInvalidPassword
-    Input Text    css=input#Email    ${ValidEmail}
-    Input Password    css=input#Password    ${InvalidPassword}
+    Open Workbook    ${ValidCreds_File}
+    ${valid}=    Read Worksheet As Table    header=True
+    ${valid}=    Set Variable    ${valid}[0]
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Text    css=input#Email    ${valid}[2]
+    Input Password    css=input#Password    ${invalid}[3]
     Click Button    xpath=//input[@value="Log in"]
     Wait Until Page Contains Element    xpath=//div[@class="validation-summary-errors"]//span[text()="Login was unsuccessful. Please correct the errors and try again."]
     Wait Until Page Contains Element    xpath=//div[@class="validation-summary-errors"]//li[text()="The credentials provided are incorrect"]
 
 LoginFromInvalidEmail
-    Input Text    css=input#Email    ${InvalidEmail}
-    Input Password    css=input#Password    ${ValidPassword}
+    Open Workbook    ${ValidCreds_File}
+    ${valid}=    Read Worksheet As Table    header=True
+    ${valid}=    Set Variable    ${valid}[0]
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
+    Input Text    css=input#Email    ${invalid}[2]
+    Input Password    css=input#Password    ${valid}[3]
     Click Button    xpath=//input[@value="Log in"]
     Wait Until Page Contains Element    xpath=//div[@class="validation-summary-errors"]//span[text()="Login was unsuccessful. Please correct the errors and try again."]
     Wait Until Page Contains Element    xpath=//div[@class="validation-summary-errors"]//li[text()="No customer account found"]
 
 LoginFromValidCreds
-    Input Text    css=input#Email    ${ValidEmail}
-    Input Password    css=input#Password    ${ValidPassword}
+    Open Workbook    ${ValidCreds_File}
+    ${valid}=    Read Worksheet As Table    header=True
+    ${valid}=    Set Variable    ${valid}[0]
+    Input Text    css=input#Email    ${valid}[2]
+    Input Password    css=input#Password    ${valid}[3]
     Click Button    xpath=//input[@value="Log in"]
-    Wait Until Page Contains Element    xpath=//a[text()="${ValidEmail}"]
+    Wait Until Page Contains Element    xpath=//a[text()="${valid}[2]"]
 
 Logout
     Click Element    xpath=//a[text()="Log out"]
     Wait Until Page Contains Element    xpath=//a[text()="Log in"]
 
 CheckForgotPasswordWithInvaildEmail
+    Open Workbook    ${InvalidCreds_File}
+    ${invalid}=    Read Worksheet As Table    header=True
+    ${invalid}=    Set Variable    ${invalid}[0]
     Click Element    xpath=//a[text()="Forgot password?"]
     Wait Until Page Contains Element    xpath=//div[@class="page-title"]//h1[text()="Password recovery"]
-    Input Text    css=input#Email    ${InvalidEmail}
+    Input Text    css=input#Email    ${invalid}[2]
     Click Button    xpath=//input[@value="Recover"]
     Wait Until Page Contains Element    xpath=//div[@class="result"]
 
 CheckForgotPasswordWithValidEmail
-    Input Text    css=input#Email    ${ForgetEmail}
-    Click Button    xpath=//input[@value="Recover"]
-    Wait Until Page Contains Element    xpath=//div[@class="result"]
+    Open Workbook    ${Regis_File}
+    ${forget}=    Read Worksheet As Table    header=True
+    FOR    ${index}    ${forget}    IN ENUMERATE    @{forget}
+        IF    '${forget}[Used]' == 'Yes'
+            Set Worksheet Value    ${index + 2}    5    Forget_Password
+            Save Workbook
+            Close Workbook
+            Input Text    css=input#Email    ${forget}[Regis_Email]
+            Click Button    xpath=//input[@value="Recover"]
+            Wait Until Page Contains Element    xpath=//div[@class="result"]
+            RETURN
+        END
+    END
+    Close Workbook
+    Fail    No users available in Excel for Forget Password
+
+CheckLoginWithForgotPasswordUser
+    Open Workbook    ${Regis_File}
+    ${forget}=    Read Worksheet As Table    header=True
+    ${forget}=    Set Variable    ${forget}[0]
+    Input Text    css=input#Email    ${forget}[2]
+    Input Password    css=input#Password    ${forget}[3]
+    Click Button    xpath=//input[@value="Log in"]
+    Wait Until Page Contains Element    xpath=//a[text()="${forget}[2]"]
 
 AddProduct1ToCart
     Click Element    xpath=//h2/a[text()="${Product1}"]
@@ -324,7 +390,6 @@ NewClearCart
         FOR    ${item}    IN    @{items}
             Select Checkbox    ${item}
         END
-
         Click Element    xpath=//input[@name="updatecart"]
         PageVerifications.Empty ShoppingCart Page
     ELSE
@@ -343,7 +408,6 @@ NewClearWishlist
         FOR    ${item}    IN    @{items}
             Select Checkbox    ${item}
         END
-
         Click Element    xpath=//input[@name="updatecart"]
         PageVerifications.Empty Wishlist Page
     ELSE
