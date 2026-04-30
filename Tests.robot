@@ -9,6 +9,7 @@ Setup
     Sleep    1s
     Set Selenium Speed    0.25s
     PageVerifications.Home Page
+    Maximize Browser Window
 
 Teardown
     Close All Browsers
