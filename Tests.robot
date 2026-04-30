@@ -3,7 +3,9 @@ Resource    Pages/Actions.robot
 
 *** Keywords ***
 Setup
+    Sleep    1s
     Set Selenium Speed    0.05s
+    PageVerifications.Home Page
 
 Teardown
     Close All Browsers
@@ -12,7 +14,6 @@ Teardown
 NegativeRegistrationFlowFromRegistrationPage
     [Tags]    NegFlow    Warnings    Regis
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Register Page
     Actions.CheckDirectRegisterClickWarnings
     Actions.CheckEmailRequiredWarnings
@@ -28,7 +29,6 @@ NegativeRegistrationFlowFromRegistrationPage
 NegativeRegistrationFlowFromLoginPage
     [Tags]    NegFlow    Login
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.RedirectionFromLogintoRegistration
     Actions.CheckDirectRegisterClickWarnings
@@ -45,7 +45,6 @@ NegativeRegistrationFlowFromLoginPage
 PositiveRegistrationFlowFromRegistrationPage
     [Tags]    PosFlow    Regis
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Register Page
     Actions.PositiveRegisterUser
     [Teardown]    Teardown
@@ -53,7 +52,6 @@ PositiveRegistrationFlowFromRegistrationPage
 PositiveRegistrationFlowFromLoginPage
     [Tags]    PosFlow    Login
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.RedirectionFromLogintoRegistration
     Actions.PositiveRegisterUser
@@ -62,7 +60,6 @@ PositiveRegistrationFlowFromLoginPage
 ForgotPasswordFlow
     [Tags]    NegFlow    PosFlow    Login
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.CheckForgotPasswordWithInvaildEmail
     Actions.CheckForgotPasswordWithValidEmail
@@ -71,7 +68,6 @@ ForgotPasswordFlow
 NegativeLoginFlow
     [Tags]    PosFlow    WOLogIn    Login
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromInvalidEmailFormat
     Actions.LoginFromInvalidCreds
@@ -82,7 +78,6 @@ NegativeLoginFlow
 PositiveLoginandLogoutFlow
     [Tags]    PosFlow    WLogIn    Login
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.Logout
@@ -94,7 +89,6 @@ PositiveLoginandLogoutFlow
 VerifyAddToWishlistFunctionality
     [Tags]    PosFlow    WLogIn    Login    Wishlist    Add
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.AddProduct3ToWishlist
@@ -109,7 +103,6 @@ VerifyAddToWishlistFunctionality
 VerifyAddToCartFunctionality
     [Tags]    PosFlow    WLogIn    Login    Cart    Add
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.AddProduct1ToCart
@@ -124,7 +117,6 @@ VerifyAddToCartFunctionality
 VerifyRemoveFromCartFunctionality
     [Tags]    PosFlow    WLogIn    Cart    Remove
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.RemoveProduct5FromCart
@@ -137,7 +129,6 @@ VerifyRemoveFromCartFunctionality
 VerifyRemoveFromWishlistFunctionality
     [Tags]    PosFlow    WLogIn    Wishlist    Remove
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.RemoveProduct4FromWishlist
@@ -148,7 +139,6 @@ VerifyRemoveFromWishlistFunctionality
 VerifyItemsInCartAfterReLogin
     [Tags]    PosFlow    WReLogin    Cart
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.NewClearCart
@@ -168,7 +158,6 @@ VerifyItemsInCartAfterReLogin
 VerifyItemsInWishlistAfterReLogin
     [Tags]    PosFlow    WReLogin    Wishlist
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.NewClearCart
@@ -191,7 +180,6 @@ VerifyItemsInWishlistAfterReLogin
 SearchForProducts
     [Tags]    PosFlow    WLogIn    Search
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.NewClearCart
@@ -206,7 +194,6 @@ SearchForProducts
 VerifyAddToWishlistFunctionalityWOLogin
     [Tags]    WOLogIn    PosFlow    Search    Wishlist
     [Setup]    Setup
-    PageVerifications.Home Page
     Actions.AddProduct3ToWishlist
     Actions.VerifyProduct3ToWishlistAdded
     Actions.AddProduct4ToWishlist
@@ -218,7 +205,6 @@ VerifyAddToWishlistFunctionalityWOLogin
 VerifyAddToCartFunctionalityWOLogin
     [Tags]    WOLogIn    PosFlow    Search    Cart
     [Setup]    Setup
-    PageVerifications.Home Page
     Actions.AddProduct1ToCart
     Actions.VerifyProduct1ToCartAdded
     Actions.SearchProduct2AddToCart
@@ -228,7 +214,6 @@ VerifyAddToCartFunctionalityWOLogin
 VerifyCheckoutFunctionalityWOLgin
     [Tags]    WOLogIn    PosFlow   Cart    Search
     [Setup]    Setup
-    PageVerifications.Home Page
     Actions.AddProduct1ToCart
     Actions.VerifyProduct1ToCartAdded
     Actions.SearchProduct2AddToCart
@@ -241,7 +226,6 @@ VerifyCheckoutFunctionalityWOLgin
 VerifyCheckoutFunctionalityWLogin
     [Tags]    WLogIn    PosFlow   Cart    Search
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.AddProduct1ToCart
@@ -257,7 +241,6 @@ VerifyCheckoutFunctionalityWLogin
 VerifyPopupOnCheckoutWLogin
     [Tags]    WLogIn    PosFlow   Cart    Search
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.AddProduct1ToCart
@@ -270,7 +253,6 @@ VerifyPopupOnCheckoutWLogin
 VerifyPopupOnCheckoutWOLogin
     [Tags]    WOLogIn    PosFlow   Cart    Search
     [Setup]    Setup
-    PageVerifications.Home Page
     Actions.AddProduct1ToCart
     Actions.VerifyProduct1ToCartAdded
     Actions.SearchProduct2AddToCart
@@ -281,7 +263,6 @@ VerifyPopupOnCheckoutWOLogin
 Cleanup
     [Tags]    WLogIn    Cleanup    Special
     [Setup]    Setup
-    PageVerifications.Home Page
     PageVerifications.Login Page
     Actions.LoginFromValidCreds
     Actions.NewClearCart
