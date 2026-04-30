@@ -206,8 +206,8 @@ CheckForgotPasswordWithValidEmail
     Open Workbook    ${Regis_File}
     ${forget}=    Read Worksheet As Table    header=True
     FOR    ${index}    ${forget}    IN ENUMERATE    @{forget}
-        IF    '${forget}[Used]' == 'Yes'
-            Set Worksheet Value    ${index + 2}    5    Forget_Password
+        IF    '${forget}[Used]' == 'YES'
+            Set Worksheet Value    ${index + 2}    5    Forget
             Save Workbook
             Close Workbook
             Input Text    css=input#Email    ${forget}[Regis_Email]
