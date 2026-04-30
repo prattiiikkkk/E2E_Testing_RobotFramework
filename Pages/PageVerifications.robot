@@ -7,7 +7,7 @@ ${HomeURL}    https://demowebshop.tricentis.com/
 *** Keywords ***
 #*** Test Cases ***
 Home Page
-    Open Browser    ${HomeURL}    gc
+    Open Browser    ${HomeURL}    ${Browser}
     Wait Until Page Contains Element    xpath=//h2[@class='topic-html-content-header']
     Sleep    2
 

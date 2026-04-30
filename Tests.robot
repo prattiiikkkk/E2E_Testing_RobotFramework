@@ -1,10 +1,13 @@
 *** Settings ***
 Resource    Pages/Actions.robot
 
+*** Variables ***
+${Browser}    chrome
+
 *** Keywords ***
 Setup
     Sleep    1s
-    Set Selenium Speed    0.05s
+    Set Selenium Speed    0.5s
     PageVerifications.Home Page
 
 Teardown
